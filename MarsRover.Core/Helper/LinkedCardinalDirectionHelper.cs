@@ -4,27 +4,38 @@ namespace MarsRover.Core.Helper
 {
     public class LinkedCardinalDirectionHelper
     {
-        private static readonly CardinalDirection[] _directions = { CardinalDirection.NORTH, CardinalDirection.EAST, CardinalDirection.SOUTH, CardinalDirection.WEST };
+        // Dictionary<CardinalDirection, Tuple<RightCardinalDirection, LeftCardinalDirection>>
+        private static readonly Dictionary<CardinalDirection, Tuple<CardinalDirection, CardinalDirection>> _directionMap;
+        static LinkedCardinalDirectionHelper()
+        {
+            _directionMap = new Dictionary<CardinalDirection, Tuple<CardinalDirection, CardinalDirection>>();
+            _directionMap.Add(CardinalDirection.NORTH, Tuple.Create(CardinalDirection.EAST, CardinalDirection.WEST));
+            _directionMap.Add(CardinalDirection.EAST, Tuple.Create(CardinalDirection.SOUTH, CardinalDirection.NORTH));
+            _directionMap.Add(CardinalDirection.SOUTH, Tuple.Create(CardinalDirection.WEST, CardinalDirection.EAST));
+            _directionMap.Add(CardinalDirection.WEST, Tuple.Create(CardinalDirection.NORTH, CardinalDirection.SOUTH));
+        }
+
         public static CardinalDirection FindRight(CardinalDirection direction)
         {
-            int index = Array.IndexOf(_directions, direction);
-            int rightIndex = index + 1;
-            if (rightIndex == _directions.Length)
-            {
-                rightIndex = 0;
-            }
-            return _directions[rightIndex];
+            Tuple<CardinalDirection, CardinalDirection>? tuple = GetTuple(direction);
+            return tuple.Item1;
         }
 
         public static CardinalDirection FindLeft(CardinalDirection direction)
         {
-            int index = Array.IndexOf(_directions, direction);
-            int rightIndex = index - 1;
-            if (rightIndex == -1)
+            Tuple<CardinalDirection, CardinalDirection>? tuple = GetTuple(direction);
+            return tuple.Item2;
+        }
+
+        private static Tuple<CardinalDirection, CardinalDirection> GetTuple(CardinalDirection direction)
+        {
+            var tuple = _directionMap.GetValueOrDefault(direction);
+            if (tuple == null)
             {
-                rightIndex = _directions.Length - 1;
+                throw new KeyNotFoundException(nameof(direction));
             }
-            return _directions[rightIndex];
+
+            return tuple;
         }
     }
 }
