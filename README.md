@@ -32,9 +32,14 @@ docker run -i marsroverapplication
 
 * Navigate project root directory
 * Build and run project with following command: 
+
 ```bash
 docker run -i marsroverapplication < test.txt > output.txt
 cat output.txt
 ```
-* You can also use two test input files (test.txt, test_detailed.txt) that have been prepared before.
+
+* You can also use two test input files (test.txt, test_detailed.txt) that have been prepared before. In order to use them pull LFS files with following command:
+```bash
+git lfs pull
+```
 
