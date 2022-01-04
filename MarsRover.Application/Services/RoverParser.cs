@@ -3,16 +3,16 @@ using MarsRover.Core.Instruction;
 
 namespace MarsRover.Application.Services
 {
-    public class RoverFactory
+    public class RoverParser
     {
-        public static Rover CreateRover(string positionLine, string instructionLine)
+        public static Rover ParseRover(string positionLine, string instructionLine)
         {
-            var roverPosition = CreateRoverPosition(positionLine);
-            var roverInstructions = CreateRoverInstructions(instructionLine);
+            var roverPosition = ParseRoverPosition(positionLine);
+            var roverInstructions = ParseRoverInstructions(instructionLine);
             return new Rover(roverPosition, roverInstructions);
         }
 
-        private static Position CreateRoverPosition(string positionLine)
+        private static Position ParseRoverPosition(string positionLine)
         {
             if (positionLine == null)
             {
@@ -20,11 +20,15 @@ namespace MarsRover.Application.Services
             }
 
             string[] tokens = positionLine.Split(' ');
-            Position roverPosition = new(new Coordinate(int.Parse(tokens[0]), int.Parse(tokens[1])), tokens[2].ParseCardinalDirection());
+            if (tokens.Length != 3)
+            {
+                throw new ArgumentOutOfRangeException(nameof(positionLine));
+            }
+            Position roverPosition = new(Coordinate.Of(int.Parse(tokens[0]), int.Parse(tokens[1])), tokens[2].ParseCardinalDirection());
             return roverPosition;
         }
 
-        private static List<IRoverInstruction> CreateRoverInstructions(string instructionLine)
+        private static List<IRoverInstruction> ParseRoverInstructions(string instructionLine)
         {
             if (instructionLine == null)
             {
@@ -35,13 +39,13 @@ namespace MarsRover.Application.Services
             var instructions = new List<IRoverInstruction>();
             foreach (var ch in instructionChars)
             {
-                instructions.Add(CreateInstructionFromLetter(ch));
+                instructions.Add(ParseInstructionFromLetter(ch));
             }
 
             return instructions;
         }
 
-        private static IRoverInstruction CreateInstructionFromLetter(char ch)
+        private static IRoverInstruction ParseInstructionFromLetter(char ch)
         {
             return ch switch
             {

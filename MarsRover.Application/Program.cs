@@ -16,7 +16,7 @@ XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
 var host = Host.CreateDefaultBuilder()
     .ConfigureServices((context, services) =>
     {
-        services.AddSingleton<IRoverService, RoverService>();
+        services.AddSingleton<RoverService>();
         services.AddSingleton(factory => logRepository);
     })
     .Build();

@@ -6,20 +6,20 @@ namespace MarsRover.Core.Instruction
     {
         public Position Operate(Position pos)
         {
-            CardinalDirection direction = pos.CardinalDirection;
-            switch (direction)
+            Coordinate coordinate = pos.Coordinate;
+            switch (pos.CardinalDirection)
             {
                 case CardinalDirection.NORTH:
-                    pos.Coordinate.Y++;
+                    coordinate.Y++;
                     break;
                 case CardinalDirection.EAST:
-                    pos.Coordinate.X++;
+                    coordinate.X++;
                     break;
                 case CardinalDirection.SOUTH:
-                    pos.Coordinate.Y--;
+                    coordinate.Y--;
                     break;
                 case CardinalDirection.WEST:
-                    pos.Coordinate.X--;
+                    coordinate.X--;
                     break;
                 default:
                     break;

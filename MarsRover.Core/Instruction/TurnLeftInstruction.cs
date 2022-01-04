@@ -7,13 +7,8 @@ namespace MarsRover.Core.Instruction
     {
         public Position Operate(Position pos)
         {
-            CardinalDirection cardinalDirection = pos.CardinalDirection;
-            var linkedCardinalDirection = LinkedCardinalDirectionHelper.FindByDirection(cardinalDirection);
-            if (linkedCardinalDirection != null)
-            {
-                pos.CardinalDirection = linkedCardinalDirection.Left;
-            }
-
+            var leftDirection = LinkedCardinalDirectionHelper.FindLeft(pos.CardinalDirection);
+            pos.CardinalDirection = leftDirection;
             return pos;
         }
 

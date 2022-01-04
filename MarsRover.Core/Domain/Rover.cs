@@ -1,10 +1,11 @@
-﻿using MarsRover.Core.Instruction;
+﻿using log4net;
+using MarsRover.Core.Instruction;
 
 namespace MarsRover.Core.Domain
 {
     public class Rover
     {
-       // private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private readonly ILog _log = LogManager.GetLogger(typeof(Rover));
 
         public Position Position { get; set; }
         private readonly List<IRoverInstruction> _instructions;
@@ -31,24 +32,23 @@ namespace MarsRover.Core.Domain
             _instructions.Add(instruction);
         }
 
-        public Position Operate(Coordinate upperRightCoordinate)
+        public void OperateInstructions(Coordinate upperRightCoordinate)
         {
             foreach (IRoverInstruction instruction in _instructions)
             {
-                //_log.Error($"Executing instruction: {instruction}");
+                _log.Debug($"Executing instruction: {instruction}");
 
-                var copyPos = (Position)Position.Clone();
+                var positionToOperate = new Position(Position.Coordinate.X, Position.Coordinate.Y, Position.CardinalDirection);
 
-                Position newPosition = instruction.Operate(copyPos);
-                //_log.Error($"New position: {newPosition}");
+                Position newPosition = instruction.Operate(positionToOperate);
+                _log.Debug($"New position: {newPosition}");
 
-                if (newPosition.Coordinate.InBoundaries(upperRightCoordinate))
+                if (newPosition.Coordinate.InBoundaries(upperRightCoordinate) && Coordinate.Zero.InBoundaries(newPosition.Coordinate))
                 {
                     // Maybe an execution exception can be thrown else case in here.
-                    Position = copyPos;
+                    Position = newPosition;
                 }
             }
-            return Position;
         }
     }
 }

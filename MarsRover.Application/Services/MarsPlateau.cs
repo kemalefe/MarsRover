@@ -5,13 +5,13 @@ namespace MarsRover.Application.Services
 {
     public class MarsPlateau
     {
-        private readonly Coordinate _upperRightCoordinate;
-        private readonly List<Rover> _rovers;
+        public Coordinate UpperRightCoordinate { get; set; }
+        public List<Rover> Rovers { get; set; }
 
         public MarsPlateau(Coordinate upperRightCoordinate)
         {
-            _upperRightCoordinate = upperRightCoordinate;
-            _rovers = new List<Rover>();
+            UpperRightCoordinate = upperRightCoordinate;
+            Rovers = new List<Rover>();
         }
 
         public void DeployRover(Rover roverToDeploy)
@@ -21,36 +21,25 @@ namespace MarsRover.Application.Services
                 throw new ArgumentNullException(nameof(roverToDeploy));
             }
 
-            _rovers.Add(roverToDeploy);
+            Rovers.Add(roverToDeploy);
         }
 
         public void OperateRovers()
         {
-            _rovers.ForEach(rover => rover.Operate(_upperRightCoordinate));
+            Rovers.ForEach(rover => rover.OperateInstructions(UpperRightCoordinate));
         }
 
         public string GetRoversLastPositions()
         {
             StringBuilder sb = new();
-            _rovers.ForEach(rover => sb.AppendLine(rover.Position.ToString()));
+            Rovers.ForEach(rover => sb.AppendLine(rover.Position.ToString()));
             return sb.ToString();
         }
 
-        public static MarsPlateau Create(string[] lines)
+        public static MarsPlateau Parse(string uppperRightCoordinate)
         {
-            int lineNum = 0;
-            Coordinate upperRightCoordinate = ParseUpperRightCoordinate(lines[lineNum++]);
-            MarsPlateau mars = new(upperRightCoordinate);
-
-            while (lineNum < lines.Length)
-            {
-                var roverPosition = lines[lineNum++];
-                var instructionLine = lines[lineNum++];
-                Rover rover = RoverFactory.CreateRover(roverPosition, instructionLine);
-                mars.DeployRover(rover);
-            }
-
-            return mars;
+            var upperRightCoordinate = ParseUpperRightCoordinate(uppperRightCoordinate);
+            return new(upperRightCoordinate);
         }
 
         private static Coordinate ParseUpperRightCoordinate(string upperCoordinates)
@@ -61,8 +50,12 @@ namespace MarsRover.Application.Services
             }
 
             string[] tokens = upperCoordinates.Split(' ');
-            
-            return new Coordinate(int.Parse(tokens[0]), int.Parse(tokens[1]));
+            if (tokens.Length != 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(upperCoordinates));
+            }
+
+            return Coordinate.Of(int.Parse(tokens[0]), int.Parse(tokens[1]));
         }
     }
 }

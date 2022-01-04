@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  marsrover.application:
+    image: ${DOCKER_REGISTRY-}marsroverapplication
+    build:
+      context: .
+      dockerfile: MarsRover.Application/Dockerfile
+    stdin_open: true
+    tty: true

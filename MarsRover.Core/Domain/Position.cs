@@ -2,7 +2,7 @@
 
 namespace MarsRover.Core.Domain
 {
-    public class Position : ICloneable
+    public class Position
     {
         private const char SPACE = ' ';
 
@@ -15,9 +15,10 @@ namespace MarsRover.Core.Domain
             CardinalDirection = cardinalDirection;
         }
 
-        public object Clone()
+        public Position(int x, int y, CardinalDirection cardinalDirection)
         {
-            return new Position(new Coordinate(Coordinate.X, Coordinate.Y), CardinalDirection);
+            Coordinate = Coordinate.Of(x, y);
+            CardinalDirection = cardinalDirection;
         }
 
         public override string ToString()
