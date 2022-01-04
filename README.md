@@ -25,7 +25,7 @@ A sample Console Application for mars rover problem solution developed with C# i
 
 ## How To Run
 
-* Navigate MarsRover.Application project root directory
+* Navigate project root directory
 * Build and run project with following command: 
 ```bash
 docker compose run marsrover.application 
