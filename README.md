@@ -40,8 +40,5 @@ docker run -i mars-rover < custom_test_file.txt > output_file.txt
 cat output_file.txt
 ```
 
-* You can also use two test input files (test.txt, test_detailed.txt) that have been prepared before. Before using them you should pull LFS files with following command:
-```bash
-git lfs pull
-```
+* You can also use two test input files (test.txt, test_detailed.txt) that have been prepared before. 
 
