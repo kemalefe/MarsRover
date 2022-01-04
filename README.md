@@ -4,7 +4,7 @@ A sample Console Application for mars rover problem solution developed with C# i
 
 ## Usage
 * The first line must be consist of two integers which defines the pletau surface upper right coordinates.
-* 
+* Each rover information must be consist of two lines sequentally. First line is landing position of rover, and the second line is instructions to be operated by rover.
 
 #### Rover Position Format Sample
     coordinate_X coordinate_Y heading_direction (N,S,W,E)
@@ -36,5 +36,5 @@ docker run -i marsroverapplication
 docker run -i marsroverapplication < test.txt > output.txt
 cat output.txt
 ```
-* You will see two test input files (test.txt, test_detailed.txt) that have been prepared before.
+* You can also use two test input files (test.txt, test_detailed.txt) that have been prepared before.
 
