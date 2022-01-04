@@ -25,7 +25,8 @@ A sample Console Application for mars rover problem solution developed with C# i
 * Navigate project root directory
 * Build and run project with following command: 
 ```bash
-docker run -i marsroverapplication
+docker build -t mars-rover .
+docker run -i mars-rover
 ```
 
 ## Testing with bulk data
@@ -34,7 +35,7 @@ docker run -i marsroverapplication
 * Build and run project with following command: 
 
 ```bash
-docker run -i marsroverapplication < test.txt > output.txt
+docker run -i mars-rover < test.txt > output.txt
 cat output.txt
 ```
 
