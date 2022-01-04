@@ -3,21 +3,18 @@
 A sample Console Application for mars rover problem solution developed with C# in .net6.0 framework.
 
 ## Usage
-* When application startup completed you will be required to enter Mars plateau surface upper coordinates.
-* Enter the upper right coordinates as two integers with spaces between.
-* After entering upper right coordinates of the plateu, you will be required to enter the first rover landing coordinate with the following format: 
+* The first line must be consist of two integers which defines the pletau surface upper right coordinates.
+* 
 
 #### Rover Position Format Sample
     coordinate_X coordinate_Y heading_direction (N,S,W,E)
     6 10 N
 * After entering rover's landing position you will be required to enter instructions.
 
-#### Instructions Sample
+#### Instructions Explanation
     LMLMLRMLMM
     
     L: Turn Left, M: Move, R: Turn Right
-* Once the previous step was completed the application will ask if you want to deploy other rovers. If you respond yes you will be able to another rovers.
-* After rover deployment completed the application will print last position of each rover sequentally.
 
 ## Prerequirements
 
@@ -28,6 +25,16 @@ A sample Console Application for mars rover problem solution developed with C# i
 * Navigate project root directory
 * Build and run project with following command: 
 ```bash
-docker compose run marsrover.application 
+docker run -i marsroverapplication
 ```
+
+## Testing with bulk data
+
+* Navigate project root directory
+* Build and run project with following command: 
+```bash
+docker run -i marsroverapplication < test.txt > output.txt
+cat output.txt
+```
+* You will see two test input files (test.txt, test_detailed.txt) that have been prepared before.
 

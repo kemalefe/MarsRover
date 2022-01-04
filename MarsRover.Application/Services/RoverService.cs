@@ -10,8 +10,7 @@ namespace MarsRover.Application.Services
             Console.InputEncoding = Encoding.UTF8;
             using StreamReader reader = new(Console.OpenStandardInput(), Console.InputEncoding);
 
-            Console.WriteLine("Enter plateau surface upper coordinates:");
-            string? stdin = Console.ReadLine();
+            string? stdin = reader.ReadLine();
             if (string.IsNullOrEmpty(stdin))
             {
                 Console.WriteLine("No input entered. Exiting...");
@@ -22,32 +21,26 @@ namespace MarsRover.Application.Services
             string? positionLine, instructionLine;
             do
             {
-                Console.WriteLine("Enter rover position:");
                 positionLine = reader.ReadLine();
-                Console.WriteLine("Enter rover instructions:");
                 instructionLine = reader.ReadLine();
                 if (string.IsNullOrEmpty(instructionLine) || string.IsNullOrEmpty(positionLine))
-                {
-                    Console.WriteLine("Invalid input");
-                    continue;
-                }
-
-                Rover rover = RoverParser.ParseRover(positionLine, instructionLine);
-                mars.DeployRover(rover);
-                // rover.OperateInstructions(mars.UpperRightCoordinate);
-                // Console.WriteLine(rover.Position.ToString());
-
-                Console.WriteLine("Do you want to add rover? (y/n)");
-                var answer = reader.ReadLine();
-                if (!string.Equals(answer, "y", StringComparison.OrdinalIgnoreCase))
                 {
                     break;
                 }
 
-            } while (!string.IsNullOrEmpty(positionLine) && !string.IsNullOrEmpty(instructionLine));
+                try
+                {
+                    Rover rover = RoverParser.ParseRover(positionLine, instructionLine);
+                    mars.DeployRover(rover);
+                    rover.OperateInstructions(mars.UpperRightCoordinate);
+                    Console.WriteLine(rover.Position.ToString());
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error occurred:{ e.Message }");
+                }
 
-            mars.OperateRovers();
-            Console.WriteLine(mars.GetRoversLastPositions());
+            } while (!string.IsNullOrEmpty(positionLine) && !string.IsNullOrEmpty(instructionLine));
         }
     }
 }

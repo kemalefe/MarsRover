@@ -14,8 +14,9 @@
 
         public static Coordinate Of(int x, int y)
         {
-            if (x < 0 || y < 0) {
-                throw new ArgumentOutOfRangeException("Invalid coordinates:" + nameof(x), nameof(y));
+            if (x < 0 || y < 0)
+            {
+                throw new ArgumentOutOfRangeException($"Invalid coordinates:{ nameof(x)} {nameof(y)}");
             }
             return new(x, y);
         }
