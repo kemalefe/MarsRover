@@ -1,4 +1,6 @@
-﻿namespace MarsRover.Domain
+﻿using MarsRover.Core.Domain;
+
+namespace MarsRover.Core.Instruction
 {
     public class MoveInstruction : IRoverInstruction
     {

@@ -1,4 +1,4 @@
-﻿namespace MarsRover.Domain
+﻿namespace MarsRover.Core.Domain
 {
     public class Coordinate
     {
@@ -11,9 +11,9 @@
             Y = y;
         }
 
-        public bool InBoundaries(Coordinate upperRightCoordinate)
+        public bool InBoundaries(Coordinate boundary)
         {
-            return X <= upperRightCoordinate.X && Y <= upperRightCoordinate.Y; 
+            return X <= boundary.X && Y <= boundary.Y;
         }
     }
 }

@@ -1,9 +1,19 @@
-﻿namespace MarsRover.Domain
+﻿using MarsRover.Core.Instruction;
+
+namespace MarsRover.Core.Domain
 {
     public class Rover
     {
+       // private readonly ILog _log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public Position Position { get; set; }
         private readonly List<IRoverInstruction> _instructions;
+
+        public Rover(Position position)
+        {
+            Position = position;
+            _instructions = new List<IRoverInstruction>();
+        }
 
         public Rover(Position position, List<IRoverInstruction> instructions)
         {
@@ -25,12 +35,12 @@
         {
             foreach (IRoverInstruction instruction in _instructions)
             {
-                Console.WriteLine($"Executing instruction: {instruction}"); 
+                //_log.Error($"Executing instruction: {instruction}");
 
                 var copyPos = (Position)Position.Clone();
 
-                Position? newPosition = instruction.Operate(copyPos);
-                Console.WriteLine($"New position: {newPosition}");
+                Position newPosition = instruction.Operate(copyPos);
+                //_log.Error($"New position: {newPosition}");
 
                 if (newPosition.Coordinate.InBoundaries(upperRightCoordinate))
                 {

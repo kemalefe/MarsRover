@@ -1,6 +1,7 @@
-﻿using MarsRover.Domain;
+﻿using MarsRover.Core.Domain;
+using MarsRover.Core.Instruction;
 
-namespace MarsRover.Service
+namespace MarsRover.Application.Services
 {
     public class RoverFactory
     {

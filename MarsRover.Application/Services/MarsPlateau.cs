@@ -1,7 +1,7 @@
-﻿using MarsRover.Domain;
+﻿using MarsRover.Core.Domain;
 using System.Text;
 
-namespace MarsRover.Service
+namespace MarsRover.Application.Services
 {
     public class MarsPlateau
     {
@@ -14,28 +14,40 @@ namespace MarsRover.Service
             _rovers = new List<Rover>();
         }
 
-        public void AddRover(Rover roverToAdd)
+        public void DeployRover(Rover roverToDeploy)
         {
-            if (roverToAdd == null)
+            if (roverToDeploy == null)
             {
-                throw new ArgumentNullException(nameof(roverToAdd));
+                throw new ArgumentNullException(nameof(roverToDeploy));
             }
 
-            _rovers.Add(roverToAdd);
+            _rovers.Add(roverToDeploy);
+        }
+
+        public void OperateRovers()
+        {
+            _rovers.ForEach(rover => rover.Operate(_upperRightCoordinate));
+        }
+
+        public string GetRoversLastPositions()
+        {
+            StringBuilder sb = new();
+            _rovers.ForEach(rover => sb.AppendLine(rover.Position.ToString()));
+            return sb.ToString();
         }
 
         public static MarsPlateau Create(string[] lines)
         {
-            Coordinate upperRightCoordinate = ParseUpperRightCoordinate(lines[0]);
-            MarsPlateau mars = new MarsPlateau(upperRightCoordinate);
+            int lineNum = 0;
+            Coordinate upperRightCoordinate = ParseUpperRightCoordinate(lines[lineNum++]);
+            MarsPlateau mars = new(upperRightCoordinate);
 
-            int lineNum = 1;
             while (lineNum < lines.Length)
             {
                 var roverPosition = lines[lineNum++];
                 var instructionLine = lines[lineNum++];
                 Rover rover = RoverFactory.CreateRover(roverPosition, instructionLine);
-                mars.AddRover(rover);
+                mars.DeployRover(rover);
             }
 
             return mars;
@@ -45,22 +57,12 @@ namespace MarsRover.Service
         {
             if (upperCoordinates == null)
             {
-                throw new ArgumentNullException("upperCoordinates");
+                throw new ArgumentNullException(nameof(upperCoordinates));
             }
 
             string[] tokens = upperCoordinates.Split(' ');
+            
             return new Coordinate(int.Parse(tokens[0]), int.Parse(tokens[1]));
-        }
-
-        public string OperateRovers()
-        {
-            StringBuilder sb = new();
-            foreach (var rover in _rovers)
-            {
-                var position = rover.Operate(_upperRightCoordinate);
-                sb.AppendLine(position.ToString());
-            }
-            return sb.ToString();
         }
     }
 }

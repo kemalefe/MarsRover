@@ -1,9 +1,11 @@
 ﻿using System.Text;
 
-namespace MarsRover.Domain
+namespace MarsRover.Core.Domain
 {
     public class Position : ICloneable
     {
+        private const char SPACE = ' ';
+
         public Coordinate Coordinate { get; set; }
         public CardinalDirection CardinalDirection { get; set; }
 
@@ -20,7 +22,7 @@ namespace MarsRover.Domain
 
         public override string ToString()
         {
-            return new StringBuilder().Append(Coordinate.X).Append(' ').Append(Coordinate.Y).Append(' ').Append(CardinalDirection.ToLetterString()).ToString();
+            return new StringBuilder().Append(Coordinate.X).Append(SPACE).Append(Coordinate.Y).Append(SPACE).Append(CardinalDirection.ToLetterString()).ToString();
         }
 
     }

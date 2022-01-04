@@ -1,4 +1,4 @@
-﻿namespace MarsRover.Domain
+﻿namespace MarsRover.Core.Domain
 {
     public enum CardinalDirection
     {
